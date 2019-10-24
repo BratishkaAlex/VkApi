@@ -1,14 +1,16 @@
 from framework.browser.browser import Browser
-from framework.utils.logger import Logger
-from framework.utils.waiter import Waiter
+from framework.utils.logger import debug
+from framework.utils.waiter import wait_for_clickable
+
+browser = Browser()
 
 
 class BaseElement:
     def __init__(self, by, loc, name):
         self.__by = by
         self.__loc = loc
-        self.__name = f"{name}, class {type(self).__name__} "
-        Logger.debug(f"Creating instance of {self.__name}")
+        self.__name = f"{type(self).__name__}, '{name}'"
+        debug(f"Creating instance of {self.__name}")
 
     def is_displayed(self):
         return self.web_element.is_displayed()
@@ -17,7 +19,7 @@ class BaseElement:
         self.web_element.click()
 
     def wait_and_click(self):
-        Waiter.wait_for_clickable(self.by, self.__loc)
+        wait_for_clickable(self.by, self.__loc)
         self.web_element.click()
 
     def get_attribute(self, attribute):
@@ -28,7 +30,7 @@ class BaseElement:
 
     @property
     def web_element(self):
-        return Browser.get_driver().find_element(self.by, self.loc)
+        return browser.driver.find_element(self.by, self.loc)
 
     @property
     def by(self):

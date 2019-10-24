@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
 
 from framework.elements.button import Button
+from framework.utils.logger import info
 
 
 class SideBar:
@@ -8,4 +9,5 @@ class SideBar:
         self.get_side_bar_item(item).click()
 
     def get_side_bar_item(self, item):
-        return Button(By.ID, item.value, "Button to navigate to side bar item")
+        info(f"Go to the side bar item with id '{item.value}'")
+        return Button(By.ID, item.value, f"Navigate to side bar item with id '{item.value}'")

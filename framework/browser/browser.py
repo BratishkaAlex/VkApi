@@ -1,35 +1,29 @@
-from framework.browser.browser_factory import BrowserFactory
-from framework.utils.logger import Logger
+from framework.browser.browser_factory import get_driver
+from framework.models.singleton import Singleton
+from framework.utils.logger import debug
 
 
-class Browser:
-    driver = None
+class Browser(metaclass=Singleton):
+    def __init__(self):
+        self.__driver = get_driver()
 
-    @staticmethod
-    def get_driver():
-        if Browser.driver is None:
-            Logger.debug("Creating webDriver instance")
-            Browser.driver = BrowserFactory.get_driver()
-        return Browser.driver
+    @property
+    def driver(self):
+        return self.__driver
 
-    @staticmethod
-    def maximize():
-        Logger.debug("Maximize browser window")
-        Browser.get_driver().maximize_window()
+    def maximize(self):
+        debug("Maximize browser window")
+        self.driver.maximize_window()
 
-    @staticmethod
-    def enter_url(url):
-        Logger.debug("Entering url")
-        Browser.get_driver().get(url)
+    def enter_url(self, url):
+        debug(f"Entering {url}")
+        self.driver.get(url)
 
-    @staticmethod
-    def close_browser():
-        Logger.debug("Close browser")
-        Browser.get_driver().close()
-        Browser.get_driver().quit()
-        Browser.driver = None
+    def close(self):
+        debug("Close browser")
+        self.driver.close()
+        self.driver.quit()
 
-    @staticmethod
-    def get_current_url():
-        Logger.debug("Get current browser")
-        return Browser.get_driver().current_url
+    def get_current_url(self):
+        debug("Get current browser")
+        return self.driver.current_url

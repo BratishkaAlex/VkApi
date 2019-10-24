@@ -1,13 +1,13 @@
 from selenium.webdriver.common.by import By
 
+from framework.base.base_page import BasePage
 from framework.elements.button import Button
 from framework.elements.input_field import InputField
 
 
-class UnauthorizedPage:
-    input_login_loc = "index_email"
-    input_password_loc = "index_pass"
-    submit_button_loc = "index_login_button"
+class UnauthorizedPage(BasePage):
+    def __init__(self, locator_type, locator):
+        super().__init__(locator_type, locator)
 
     def type_login(self, login):
         self.input_login_field.send_keys(login)
@@ -20,12 +20,12 @@ class UnauthorizedPage:
 
     @property
     def input_login_field(self):
-        return InputField(By.ID, self.input_login_loc, "Input field for login")
+        return InputField(By.ID, "index_email", "Login")
 
     @property
     def input_password_field(self):
-        return InputField(By.ID, self.input_password_loc, "Input field for password")
+        return InputField(By.ID, "index_pass", "Password")
 
     @property
     def submit_button(self):
-        return Button(By.ID, self.submit_button_loc, "Submit button")
+        return Button(By.ID, "index_login_button", "Submit credentials")

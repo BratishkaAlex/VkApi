@@ -2,21 +2,12 @@ from selenium.webdriver.common.by import By
 
 from framework.elements.button import Button
 from framework.elements.label import Label
+from framework.elements.photo import Photo
 from framework.enums.web_element_attributes import WebElementAttributes
+from framework.utils.logger import info
 
 
 class PostForm:
-    Author_loc = ".author"
-    Button_to_see_comment_loc = "a.replies_next_main"
-    Post_message_loc_pattern = "//div[contains(@class,'wall_post_text') and text()='%s']"
-    Added_comment_loc_pattern = "//a[@class='author' and contains(@href,'%s')]//..//..//div[@class='wall_reply_text' " \
-                                "and text()='%s']"
-    Latest_post_like_loc_pattern = "//a[contains(@class,'_like') and contains(@onclick,'%s_%s')]"
-    Uploaded_photo_loc_pattern = "//a[contains(@href,'%s')]"
-
-    def get_uploaded_photo(self, uploaded_photo_id):
-        return Button(By.XPATH, self.Uploaded_photo_loc_pattern % uploaded_photo_id, "Uploaded  photo")
-
     def see_comments_under_created_post(self):
         self.button_to_see_comments.click()
 
@@ -27,23 +18,30 @@ class PostForm:
         return self.get_post_with_message(message).is_displayed()
 
     def is_comment_added(self, owner_id, message):
+        info("Checking that comment was added")
         return self.get_comment(owner_id, message).is_displayed()
 
+    def get_uploaded_photo(self, uploaded_photo_id):
+        return Photo(By.XPATH, f"//a[contains(@href,'{uploaded_photo_id}')]", "Uploaded  photo")
+
     def get_like_button(self, owner_id, post_id):
-        return Button(By.XPATH, self.Latest_post_like_loc_pattern % (owner_id, post_id), "Like icon for VK post")
+        return Button(By.XPATH, f"//a[contains(@class,'_like') and contains(@onclick,'{owner_id}_{post_id}')]",
+                      "Like icon for VK post")
 
     def get_post_with_message(self, message):
-        return Label(By.XPATH, self.Post_message_loc_pattern % message, "Created post's test")
+        return Label(By.XPATH, f"//div[contains(@class,'wall_post_text') and text()='{message}']",
+                     "Created post's text")
 
     def get_comment(self, owner_id, message):
-        return Label(By.XPATH, self.Added_comment_loc_pattern % (owner_id, message),
-                     "Added comment")
+        self.see_comments_under_created_post()
+        return Label(By.XPATH, f"//a[@class='author' and contains(@href,'{owner_id}')]//..//..//"
+                               f"div[@class='wall_reply_text' and text()='{message}']", "Added comment")
 
     @property
     def author_of_latest_post_href(self):
-        return Label(By.CSS_SELECTOR, self.Author_loc, "Label with name of latest post's author").get_attribute(
+        return Label(By.CSS_SELECTOR, ".author", "Name of latest post's author").get_attribute(
             WebElementAttributes.HREF.value)
 
     @property
     def button_to_see_comments(self):
-        return Button(By.CSS_SELECTOR, self.Button_to_see_comment_loc, "Button to see comments")
+        return Button(By.CSS_SELECTOR, "a.replies_next_main", "See comments")

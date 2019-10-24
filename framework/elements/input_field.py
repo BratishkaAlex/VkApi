@@ -1,5 +1,5 @@
 from framework.base.base_element import BaseElement
-from framework.utils.waiter import Waiter
+from framework.utils.waiter import wait_for_clickable
 
 
 class InputField(BaseElement):
@@ -7,5 +7,5 @@ class InputField(BaseElement):
         super().__init__(by, loc, name)
 
     def send_keys(self, text):
-        Waiter.wait_for_clickable(super().by, super().loc)
+        wait_for_clickable(super().by, super().loc)
         super().web_element.send_keys(text)

@@ -1,9 +1,7 @@
 from PIL import ImageChops, Image
 
 
-class ComparisonUtils:
-    @staticmethod
-    def compare_two_images(path_to_first_picture, path_to_second_picture):
-        first_image = Image.open(path_to_first_picture)
-        second_image = Image.open(path_to_second_picture)
-        return ImageChops.difference(first_image, second_image).getbbox() is None
+def compare_two_images(path_to_first_picture, path_to_second_picture):
+    first_image = Image.open(path_to_first_picture)
+    second_image = Image.open(path_to_second_picture)
+    return ImageChops.difference(first_image, second_image).getbbox() is None
