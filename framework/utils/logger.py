@@ -3,7 +3,7 @@ import logging.config
 
 from resources import config
 
-logging.basicConfig(level=config.Logging_level, filename="log.log", filemode="w",
+logging.basicConfig(level=config.LOGGING_LEVEL, filename="log.log", filemode="w",
                     format="%(asctime)s - %(levelname)s - %(message)s")
 
 

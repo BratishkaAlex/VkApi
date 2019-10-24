@@ -1,4 +1,4 @@
-Login = ""
-Password = ""
-Access_token = ""
-Api_version = 5.102
+LOGIN = ""
+PASSWORD = ""
+ACCESS_TOKEN = ""
+API_VERSION = 5.102

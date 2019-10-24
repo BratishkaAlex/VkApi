@@ -19,17 +19,17 @@ class TestVkApi:
     counter = 1
 
     def setup_method(self):
-        if os.path.exists(config.Path_to_download_picture):
-            os.remove(config.Path_to_download_picture)
-        implicit_wait(config.Timeout)
+        if os.path.exists(config.PATH_TO_DOWNLOAD_PICTURE):
+            os.remove(config.PATH_TO_DOWNLOAD_PICTURE)
+        implicit_wait(config.TIMEOUT)
         browser.maximize()
 
     def teardown_method(self):
         browser.close()
 
     def test_vk(self):
-        browser.enter_url(config.Url)
-        log_in(vk_config.Login, vk_config.Password)
+        browser.enter_url(config.URL)
+        log_in(vk_config.LOGIN, vk_config.PASSWORD)
         news_page = NewsPage(By.ID, "submit_post_box")
         news_page.side_bar.navigate_to(SideBarItems.MY_PAGE)
         my_page = MyPage(By.ID, "page_info_wrap")
@@ -44,7 +44,7 @@ class TestVkApi:
         step("Editing post and upload picture", self.counter)
         self.counter += 1
         edited_random_string = "edited_%s" % random_string
-        uploaded_photo_id = edit_post_and_attach_file(edited_random_string, post_id, config.Path_to_picture)
+        uploaded_photo_id = edit_post_and_attach_file(edited_random_string, post_id, config.PATH_TO_PICTURE)
         assert is_post_edited(owner_id, edited_random_string, uploaded_photo_id), "Post wasn't edited"
 
         step("Adding random comment to the post", self.counter)

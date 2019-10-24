@@ -1,11 +1,11 @@
 import logging
 
-Browser = "chrome"
-Url = "https://vk.com/"
-Timeout = 10
-Timeout_for_captcha = 120
-Timeout_for_email = 30
-Language = "ru"
-Logging_level = logging.INFO
-Path_to_picture = "resources/logo.jpg"
-Path_to_download_picture = "resources/download_logo.jpg"
+BROWSER = "chrome"
+URL = "https://vk.com/"
+TIMEOUT = 10
+TIMEOUT_FOR_CAPTCHA = 120
+TIMEOUT_FOR_EMAIL = 30
+LANGUAGE = "ru"
+LOGGING_LEVEL = logging.INFO
+PATH_TO_PICTURE = "resources/logo.jpg"
+PATH_TO_DOWNLOAD_PICTURE = "resources/download_logo.jpg"

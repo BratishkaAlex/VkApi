@@ -5,7 +5,7 @@ from resources import mail_config
 
 
 def delete_all_emails(mail_model):
-    with imaplib.IMAP4_SSL(mail_config.Host, mail_config.Port) as mail:
+    with imaplib.IMAP4_SSL(mail_config.HOST, mail_config.PORT) as mail:
         mail.login(mail_model.login, mail_model.password)
         mail.select("Inbox")
         typ, data = mail.search(None, 'ALL')
@@ -17,7 +17,7 @@ def delete_all_emails(mail_model):
 
 
 def get_first_message(mail_model):
-    with imaplib.IMAP4_SSL(mail_config.Host, mail_config.Port) as mail:
+    with imaplib.IMAP4_SSL(mail_config.HOST, mail_config.PORT) as mail:
         mail.login(mail_model.login, mail_model.password)
         mail.select("Inbox")
         typ, data = mail.search(None, 'ALL')

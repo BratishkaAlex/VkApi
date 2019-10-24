@@ -8,8 +8,8 @@ from resources import vk_config
 
 def get_wall_upload_server():
     parameters = dict()
-    parameters.update({"access_token": vk_config.Access_token})
-    parameters.update({"v": vk_config.Api_version})
+    parameters.update({"access_token": vk_config.ACCESS_TOKEN})
+    parameters.update({"v": vk_config.API_VERSION})
     return VkApiRequest(VkUploadPhotosMethod.GET_WALL_UPLOAD_SERVER, parameters).request_result["response"][
         "upload_url"]
 
@@ -24,8 +24,8 @@ def get_uploaded_photo_attributes(photo_name):
 def upload_wall_photo(photo_name):
     server, photo, photo_hash = get_uploaded_photo_attributes(photo_name)
     parameters = dict()
-    parameters.update({"access_token": vk_config.Access_token})
-    parameters.update({"v": vk_config.Api_version})
+    parameters.update({"access_token": vk_config.ACCESS_TOKEN})
+    parameters.update({"v": vk_config.API_VERSION})
     parameters.update({"server": server})
     parameters.update({"photo": photo})
     parameters.update({"hash": photo_hash})

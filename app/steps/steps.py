@@ -40,11 +40,11 @@ def is_new_post_existing(owner_id, message):
 def is_post_edited(owner_id, message, uploaded_photo_id):
     info("Checking that post was edited")
     download_picture(uploaded_photo_id)
-    return compare_two_images(config.Path_to_picture,
-                              config.Path_to_download_picture) and is_new_post_existing(owner_id,
+    return compare_two_images(config.PATH_TO_PICTURE,
+                              config.PATH_TO_DOWNLOAD_PICTURE) and is_new_post_existing(owner_id,
                                                                                         message)
 
 
 def download_picture(uploaded_photo_id):
     photo = post_form.get_uploaded_photo(uploaded_photo_id)
-    download_file(photo.link_to_download, config.Path_to_download_picture)
+    download_file(photo.link_to_download, config.PATH_TO_DOWNLOAD_PICTURE)

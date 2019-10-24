@@ -1,2 +1,2 @@
-Host = "imap.gmail.com"
-Port = 993
+HOST = "imap.gmail.com"
+PORT = 993
