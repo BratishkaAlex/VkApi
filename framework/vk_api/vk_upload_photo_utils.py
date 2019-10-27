@@ -7,27 +7,30 @@ from resources import vk_config
 
 
 def get_wall_upload_server():
-    parameters = dict()
-    parameters.update({"access_token": vk_config.ACCESS_TOKEN})
-    parameters.update({"v": vk_config.API_VERSION})
+    parameters = {
+        "access_token": vk_config.ACCESS_TOKEN,
+        "v": vk_config.API_VERSION
+    }
     return VkApiRequest(VkUploadPhotosMethod.GET_WALL_UPLOAD_SERVER, parameters).request_result["response"][
         "upload_url"]
 
 
 def get_uploaded_photo_attributes(photo_name):
-    files = dict()
-    files.update({"photo": open(abspath(photo_name), "rb")})
-    request_result = PostRequest(get_wall_upload_server(), None, files).request_result
+    files = {
+        "photo": open(abspath(photo_name), "rb")
+    }
+    request_result = PostRequest(get_wall_upload_server(), None, files=files).request_result
     return request_result["server"], request_result["photo"], request_result["hash"]
 
 
 def upload_wall_photo(photo_name):
     server, photo, photo_hash = get_uploaded_photo_attributes(photo_name)
-    parameters = dict()
-    parameters.update({"access_token": vk_config.ACCESS_TOKEN})
-    parameters.update({"v": vk_config.API_VERSION})
-    parameters.update({"server": server})
-    parameters.update({"photo": photo})
-    parameters.update({"hash": photo_hash})
+    parameters = {
+        "access_token": vk_config.ACCESS_TOKEN,
+        "v": vk_config.API_VERSION,
+        "server": server,
+        "photo": photo,
+        "hash": photo_hash
+    }
     request_result = VkApiRequest(VkUploadPhotosMethod.SAVE_WALL_PHOTO, parameters).request_result
     return str(request_result["response"][0]["owner_id"]) + "_" + str(request_result["response"][0]["id"])

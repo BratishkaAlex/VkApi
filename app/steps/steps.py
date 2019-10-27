@@ -9,7 +9,7 @@ from framework.utils.logger import info
 from framework.utils.waiter import wait_for_element_disappearing
 from resources import config
 
-unauthorized_page = UnauthorizedPage(By.ID, "index_login")
+unauthorized_page = UnauthorizedPage()
 post_form = PostForm()
 
 

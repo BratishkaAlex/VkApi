@@ -1,7 +1,9 @@
 import email
 import imaplib
 
-from resources import mail_config
+from framework.custom_waites.mail_was_sent import MailWasSent
+from framework.models.web_driver_wait import DriverWait
+from resources import mail_config, config
 
 
 def delete_all_emails(mail_model):
@@ -49,3 +51,8 @@ def is_mail_sent(mail_model):
         return True
     except RuntimeError:
         return False
+
+
+def wait_while_email_received(mail):
+    DriverWait(config.TIMEOUT_FOR_EMAIL, 1).wait.until(
+        MailWasSent(mail))

@@ -6,8 +6,8 @@ from framework.elements.link import Link
 
 
 class MyPage(BasePage):
-    def __init__(self, locator_type, locator):
-        super().__init__(locator_type, locator)
+    def __init__(self):
+        super().__init__(By.ID, "page_info_wrap")
         self.__post_form = PostForm()
 
     @property
@@ -16,7 +16,8 @@ class MyPage(BasePage):
 
     @property
     def owner_id(self):
-        return self.top_profile_link.href[self.top_profile_link.href.rfind("id") + len("id"):]
+        top_profile_link = self.top_profile_link.href
+        return top_profile_link[top_profile_link.rfind("id") + len("id"):]
 
     @property
     def top_profile_link(self):

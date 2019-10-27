@@ -6,8 +6,8 @@ from framework.elements.input_field import InputField
 
 
 class UnauthorizedPage(BasePage):
-    def __init__(self, locator_type, locator):
-        super().__init__(locator_type, locator)
+    def __init__(self):
+        super().__init__(By.ID, "index_login")
 
     def type_login(self, login):
         self.input_login_field.send_keys(login)

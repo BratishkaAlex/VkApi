@@ -1,10 +1,12 @@
+from selenium.webdriver.common.by import By
+
 from app.page_object.forms.side_bar import SideBar
 from framework.base.base_page import BasePage
 
 
 class NewsPage(BasePage):
-    def __init__(self, locator_type, locator):
-        super().__init__(locator_type, locator)
+    def __init__(self):
+        super().__init__(By.ID, "submit_post_box")
         self.__side_bar = SideBar()
 
     @property

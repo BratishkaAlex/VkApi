@@ -7,7 +7,6 @@ from app.steps.steps import *
 from framework.browser.browser import Browser
 from framework.utils.logger import step
 from framework.utils.random_utils import get_random_string
-from framework.utils.waiter import implicit_wait
 from framework.vk_api.enums.vk_items import VkItems
 from framework.vk_api.vk_api_utils import *
 from resources import config, vk_config
@@ -21,7 +20,7 @@ class TestVkApi:
     def setup_method(self):
         if os.path.exists(config.PATH_TO_DOWNLOAD_PICTURE):
             os.remove(config.PATH_TO_DOWNLOAD_PICTURE)
-        implicit_wait(config.TIMEOUT)
+        browser.set_implicitly_wait(config.TIMEOUT)
         browser.maximize()
 
     def teardown_method(self):
@@ -30,9 +29,9 @@ class TestVkApi:
     def test_vk(self):
         browser.enter_url(config.URL)
         log_in(vk_config.LOGIN, vk_config.PASSWORD)
-        news_page = NewsPage(By.ID, "submit_post_box")
+        news_page = NewsPage()
         news_page.side_bar.navigate_to(SideBarItems.MY_PAGE)
-        my_page = MyPage(By.ID, "page_info_wrap")
+        my_page = MyPage()
         random_string = get_random_string()
         owner_id = my_page.owner_id
 
@@ -55,7 +54,7 @@ class TestVkApi:
 
         step("Like edited post", self.counter)
         self.counter += 1
-        my_page.post_form.like_post(owner_id, post_id)
+        my_page.post_form.like_post(post_id)
         assert is_item_liked_by_user(VkItems.POST, post_id, owner_id), "Post wasn't liked"
 
         step("Delete created post", self.counter)

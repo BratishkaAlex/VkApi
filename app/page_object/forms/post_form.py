@@ -2,8 +2,8 @@ from selenium.webdriver.common.by import By
 
 from framework.elements.button import Button
 from framework.elements.label import Label
+from framework.elements.link import Link
 from framework.elements.photo import Photo
-from framework.enums.web_element_attributes import WebElementAttributes
 from framework.utils.logger import info
 
 
@@ -11,8 +11,8 @@ class PostForm:
     def see_comments_under_created_post(self):
         self.button_to_see_comments.click()
 
-    def like_post(self, owner_id, post_id):
-        self.get_like_button(owner_id, post_id).click()
+    def like_post(self, post_id):
+        self.get_like_button(post_id).click()
 
     def is_post_with_message_displayed(self, message):
         return self.get_post_with_message(message).is_displayed()
@@ -24,8 +24,8 @@ class PostForm:
     def get_uploaded_photo(self, uploaded_photo_id):
         return Photo(By.XPATH, f"//a[contains(@href,'{uploaded_photo_id}')]", "Uploaded  photo")
 
-    def get_like_button(self, owner_id, post_id):
-        return Button(By.XPATH, f"//a[contains(@class,'_like') and contains(@onclick,'{owner_id}_{post_id}')]",
+    def get_like_button(self, post_id):
+        return Button(By.XPATH, f"//a[contains(@class,'_like') and contains(@onclick,'{post_id}')]",
                       "Like icon for VK post")
 
     def get_post_with_message(self, message):
@@ -39,8 +39,7 @@ class PostForm:
 
     @property
     def author_of_latest_post_href(self):
-        return Label(By.CSS_SELECTOR, ".author", "Name of latest post's author").get_attribute(
-            WebElementAttributes.HREF.value)
+        return Link(By.CSS_SELECTOR, ".author", "Name of latest post's author").href
 
     @property
     def button_to_see_comments(self):
