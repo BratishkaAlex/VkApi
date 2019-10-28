@@ -1,6 +1,9 @@
+from selenium.webdriver.support import expected_conditions
+
 from framework.browser.browser import Browser
+from framework.models.web_driver_wait import DriverWait
 from framework.utils.logger import debug
-from framework.utils.waiter import wait_for_clickable
+from resources import config
 
 browser = Browser()
 
@@ -19,7 +22,7 @@ class BaseElement:
         self.web_element.click()
 
     def wait_and_click(self):
-        wait_for_clickable(self.by, self.__loc)
+        self.wait_for_clickable()
         self.web_element.click()
 
     def get_attribute(self, attribute):
@@ -27,6 +30,18 @@ class BaseElement:
 
     def get_text(self):
         return self.web_element.text
+
+    def wait_for_clickable(self):
+        DriverWait(config.TIMEOUT).wait.until(
+            expected_conditions.element_to_be_clickable((self.by, self.loc)))
+
+    def wait_for_element_presence(self):
+        DriverWait(config.TIMEOUT).wait.until(
+            expected_conditions.presence_of_element_located((self.by, self.loc)))
+
+    def wait_for_element_disappearing(self):
+        DriverWait(config.TIMEOUT).wait.until(
+            expected_conditions.invisibility_of_element_located((self.by, self.loc)))
 
     @property
     def web_element(self):

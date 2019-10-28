@@ -3,7 +3,8 @@ import os
 from app.enums.side_bar_items import SideBarItems
 from app.page_object.pages.my_page import MyPage
 from app.page_object.pages.news_page import NewsPage
-from app.steps.steps import *
+from app.page_object.pages.unauthorized_page import UnauthorizedPage
+from app.steps.steps import log_in, is_new_post_existing, is_post_edited, is_post_deleted
 from framework.browser.browser import Browser
 from framework.utils.logger import step
 from framework.utils.random_utils import get_random_string
@@ -28,10 +29,17 @@ class TestVkApi:
 
     def test_vk(self):
         browser.enter_url(config.URL)
+        unauthorized_page = UnauthorizedPage()
+        assert unauthorized_page.is_page_opened(), "Unauthorized_page wasn't opened"
+
         log_in(vk_config.LOGIN, vk_config.PASSWORD)
         news_page = NewsPage()
+        assert news_page.is_page_opened(), "News page wasn't opened"
+
         news_page.side_bar.navigate_to(SideBarItems.MY_PAGE)
         my_page = MyPage()
+        assert my_page.is_page_opened(), "My page wasn't opened"
+
         random_string = get_random_string()
         owner_id = my_page.owner_id
 
@@ -59,4 +67,4 @@ class TestVkApi:
 
         step("Delete created post", self.counter)
         delete_post(post_id)
-        assert is_post_deleted(owner_id, post_id), "Post wasn't deleted"
+        assert is_post_deleted(post_id), "Post wasn't deleted"

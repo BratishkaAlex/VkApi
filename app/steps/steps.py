@@ -1,12 +1,10 @@
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.common.by import By
 
 from app.page_object.forms.post_form import PostForm
 from app.page_object.pages.unauthorized_page import UnauthorizedPage
 from framework.utils.comparison_utils import compare_two_images
 from framework.utils.download_utils import download_file
 from framework.utils.logger import info
-from framework.utils.waiter import wait_for_element_disappearing
 from resources import config
 
 unauthorized_page = UnauthorizedPage()
@@ -20,10 +18,10 @@ def log_in(login, password):
     unauthorized_page.click_submit()
 
 
-def is_post_deleted(owner_id, post_id):
+def is_post_deleted(post_id):
     info("Checking that post was deleted")
     try:
-        wait_for_element_disappearing(By.ID, f"post{owner_id}_{post_id}")
+        post_form.get_like_button(post_id).wait_for_element_disappearing()
         return True
     except TimeoutException:
         return False
